@@ -482,7 +482,7 @@
             </div>
             
             <div class="actions" style="justify-content: center;">
-                <button class="btn btn-secondary" onclick="showEditorView()">✏️ Edit</button>
+                <button class="btn btn-secondary" onclick="window.location.href='?edit=true'">✏️ Edit</button>
             </div>
         </div>
 
@@ -871,13 +871,14 @@
         // Check URL params
         const urlParams = new URLSearchParams(window.location.search);
 
-        // Check if visitor mode - show public page only (no editor)
-        const isVisitor = urlParams.get('view') === 'true' || (!saved && !localStorage.getItem('linkpage_visited'));
+        // Check if editor explicitly requested
+        const isEditorMode = urlParams.get('edit') === 'true';
         
-        if (isVisitor) {
-            // Mark as visited so we don't show editor on return
-            localStorage.setItem('linkpage_visited', 'true');
-            // Show public view only
+        if (isEditorMode) {
+            // Show editor - for owner to edit their page
+            // Nothing needed, editor is shown by default
+        } else {
+            // Default: show public view only (for visitors and general viewing)
             showPublicView();
         }
 

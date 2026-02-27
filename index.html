@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkPage - Your Link in Bio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --card: #141414;
+            --border: #262626;
+            --text: #fafafa;
+            --text-muted: #a3a3a3;
+            --accent: #22c55e;
+            --accent-hover: #16a34a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Preview Mode */
+        .preview-mode .editor {
+            display: none;
+        }
+
+        .preview-mode .preview {
+            display: block;
+        }
+
+        /* Editor */
+        .editor {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .editor h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        /* Links List */
+        .links-list {
+            margin-bottom: 16px;
+        }
+
+        .link-item {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+
+        .link-item input {
+            flex: 1;
+            padding: 8px 10px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .link-item .drag {
+            cursor: grab;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .link-item .delete {
+            cursor: pointer;
+            color: #ef4444;
+            font-size: 18px;
+            padding: 4px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        /* Preview */
+        .preview {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .preview .avatar {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: var(--card);
+            border: 3px solid var(--accent);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            overflow: hidden;
+        }
+
+        .preview .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview .name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .preview .bio {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        .preview .links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preview .link {
+            display: block;
+            padding: 14px 20px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .preview .link:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Actions */
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        /* Color Picker */
+        .color-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.active {
+            border-color: #fff;
+        }
+
+        /* Tab Toggle */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg);
+            padding: 4px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: var(--card);
+            color: var(--text);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Pro Badge */
+        .pro-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #000;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="editor">Editor</div>
+            <div class="tab" data-tab="preview">Preview</div>
+        </div>
+
+        <!-- Editor Tab -->
+        <div class="tab-content active" id="editor-tab">
+            <div class="editor">
+                <h2>👤 Profile</h2>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" id="name" placeholder="Your name" value="Trent">
+                </div>
+                <div class="form-group">
+                    <label>Bio</label>
+                    <textarea id="bio" placeholder="Tell people about yourself">Pizza truck owner. Building things. 📍 NWA</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Avatar URL</label>
+                    <input type="text" id="avatar" placeholder="https://...">
+                </div>
+            </div>
+
+            <div class="editor">
+                <h2>🔗 Links <span class="pro-badge">PRO</span></h2>
+                <div class="links-list" id="links-list">
+                    <!-- Links added here -->
+                </div>
+                <button class="btn btn-secondary btn-small" onclick="addLink()">+ Add Link</button>
+            </div>
+
+            <div class="editor">
+                <h2>🎨 Appearance</h2>
+                <div class="form-group">
+                    <label>Theme</label>
+                    <div class="color-options">
+                        <div class="color-option active" style="background: #0a0a0a" data-theme="#0a0a0a" onclick="setTheme(this)"></div>
+                        <div class="color-option" style="background: #1e1b4b" data-theme="#1e1b4b" onclick="setTheme(this)"></div>
+                        <div class="color-option" style="background: #14532d" data-theme="#14532d" onclick="setTheme(this)"></div>
+                        <div class="color-option" style="background: #7f1d1d" data-theme="#7f1d1d" onclick="setTheme(this)"></div>
+                        <div class="color-option" style="background: #292524" data-theme="#292524" onclick="setTheme(this)"></div>
+                        <div class="color-option" style="background: #fafafa" data-theme="#fafafa" onclick="setTheme(this)"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" onclick="savePage()">💾 Save</button>
+                <button class="btn btn-secondary" onclick="showPreview()">👁 Preview</button>
+            </div>
+        </div>
+
+        <!-- Preview Tab -->
+        <div class="tab-content" id="preview-tab">
+            <div class="preview" style="display: block">
+                <div class="avatar" id="preview-avatar">🔗</div>
+                <div class="name" id="preview-name">Trent</div>
+                <div class="bio" id="preview-bio">Pizza truck owner. Building things. 📍 NWA</div>
+                <div class="links" id="preview-links">
+                    <!-- Preview links -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Saved!</div>
+
+    <script>
+        let links = [
+            { title: '🍕 FoodTruckIQ', url: 'https://tcby04.github.io/foodtruckiq/' },
+            { title: '📸 Instagram', url: 'https://instagram.com' },
+        ];
+
+        let currentTheme = '#0a0a0a';
+
+        function renderLinks() {
+            const list = document.getElementById('links-list');
+            list.innerHTML = links.map((link, i) => `
+                <div class="link-item">
+                    <span class="drag">⋮⋮</span>
+                    <input type="text" placeholder="Title" value="${link.title}" onchange="updateLink(${i}, 'title', this.value)">
+                    <input type="text" placeholder="URL" value="${link.url}" onchange="updateLink(${i}, 'url', this.value)">
+                    <span class="delete" onclick="deleteLink(${i})">×</span>
+                </div>
+            `).join('');
+        }
+
+        function addLink() {
+            links.push({ title: '', url: '' });
+            renderLinks();
+        }
+
+        function updateLink(i, field, value) {
+            links[i][field] = value;
+        }
+
+        function deleteLink(i) {
+            links.splice(i, 1);
+            renderLinks();
+        }
+
+        function setTheme(el) {
+            document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
+            currentTheme = el.dataset.theme;
+            document.documentElement.style.setProperty('--bg', currentTheme);
+            
+            // Adjust text color for light themes
+            if (currentTheme === '#fafafa') {
+                document.documentElement.style.setProperty('--text', '#000');
+                document.documentElement.style.setProperty('--text-muted', '#666');
+            } else {
+                document.documentElement.style.setProperty('--text', '#fafafa');
+                document.documentElement.style.setProperty('--text-muted', '#a3a3a3');
+            }
+        }
+
+        function updatePreview() {
+            document.getElementById('preview-name').textContent = document.getElementById('name').value || 'Your Name';
+            document.getElementById('preview-bio').textContent = document.getElementById('bio').value || 'Your bio here';
+            
+            const avatarUrl = document.getElementById('avatar').value;
+            const avatar = document.getElementById('preview-avatar');
+            if (avatarUrl) {
+                avatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
+            } else {
+                avatar.textContent = '🔗';
+            }
+
+            document.getElementById('preview-links').innerHTML = links
+                .filter(l => l.title && l.url)
+                .map(l => `<a href="${l.url}" class="link" target="_blank">${l.title}</a>`)
+                .join('') || '<p style="color: var(--text-muted)">No links yet</p>';
+        }
+
+        function showPreview() {
+            updatePreview();
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('[data-tab="preview"]').classList.add('active');
+            document.getElementById('preview-tab').classList.add('active');
+        }
+
+        function savePage() {
+            const data = {
+                name: document.getElementById('name').value,
+                bio: document.getElementById('bio').value,
+                avatar: document.getElementById('avatar').value,
+                links: links,
+                theme: currentTheme
+            };
+            
+            localStorage.setItem('linkpage_data', JSON.stringify(data));
+            showToast('Saved!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                tab.classList.add('active');
+                document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
+                
+                if (tab.dataset.tab === 'preview') {
+                    updatePreview();
+                }
+            });
+        });
+
+        // Load saved data
+        const saved = localStorage.getItem('linkpage_data');
+        if (saved) {
+            const data = JSON.parse(saved);
+            document.getElementById('name').value = data.name || '';
+            document.getElementById('bio').value = data.bio || '';
+            document.getElementById('avatar').value = data.avatar || '';
+            links = data.links || [];
+            if (data.theme) {
+                currentTheme = data.theme;
+                document.documentElement.style.setProperty('--bg', data.theme);
+            }
+        }
+
+        renderLinks();
+    </script>
+</body>
+</html>

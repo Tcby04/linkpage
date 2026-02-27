@@ -482,7 +482,7 @@
             </div>
             
             <div class="actions" style="justify-content: center;">
-                <button class="btn btn-secondary" onclick="window.location.href='?edit=true'">✏️ Edit</button>
+                <button class="btn btn-secondary" onclick="showEditorView(); window.history.pushState({}, '', '?edit=true');">✏️ Edit</button>
             </div>
         </div>
 
@@ -651,6 +651,7 @@
         function showEditorView() {
             document.getElementById('share-view').classList.remove('active');
             document.getElementById('editor-view').style.display = 'block';
+            window.history.pushState({}, '', '?edit=true');
         }
 
         function switchTab(tab) {

@@ -817,23 +817,49 @@
 
         // Load saved data
         const saved = localStorage.getItem('linkpage_data');
+        
+        // Default data for Trent's page
+        const defaultData = {
+            name: 'Trent',
+            bio: 'Solo dev building things. 📍 NWA',
+            avatar: '',
+            bgImage: '',
+            customDomain: '',
+            theme: '#0a0a0a',
+            links: [
+                { title: '🔧 Curtis Tech', url: 'https://tcby04.github.io/curtis-tech/' },
+                { title: '⚡ Quote Genius', url: 'https://tcby04.github.io/quote-genius/' },
+                { title: '🍕 FoodTruckIQ', url: 'https://tcby04.github.io/foodtruckiq/' },
+                { title: '🔗 LinkPage', url: 'https://tcby04.github.io/linkpage/' },
+                { title: '🗜️ PixelSqueeze', url: 'https://tcby04.github.io/pixel-squeeze/' }
+            ],
+            isPro: true
+        };
+        
+        let data = defaultData;
+        
         if (saved) {
-            const data = JSON.parse(saved);
-            document.getElementById('name').value = data.name || '';
-            document.getElementById('bio').value = data.bio || '';
-            document.getElementById('avatar').value = data.avatar || '';
-            document.getElementById('bg-image').value = data.bgImage || '';
-            document.getElementById('custom-domain').value = data.customDomain || '';
-            links = data.links || [];
-            isPro = data.isPro || localStorage.getItem('linkpage_pro') === 'true';
-            
-            if (data.theme) {
-                currentTheme = data.theme;
-                document.documentElement.style.setProperty('--bg', data.theme);
-            }
-            
-            updateBgPreview();
+            data = { ...defaultData, ...JSON.parse(saved) };
+        } else {
+            // Save default data for first visit
+            localStorage.setItem('linkpage_data', JSON.stringify(defaultData));
+            localStorage.setItem('linkpage_pro', 'true');
         }
+        
+        document.getElementById('name').value = data.name || '';
+        document.getElementById('bio').value = data.bio || '';
+        document.getElementById('avatar').value = data.avatar || '';
+        document.getElementById('bg-image').value = data.bgImage || '';
+        document.getElementById('custom-domain').value = data.customDomain || '';
+        links = data.links || [];
+        isPro = data.isPro || localStorage.getItem('linkpage_pro') === 'true';
+        
+        if (data.theme) {
+            currentTheme = data.theme;
+            document.documentElement.style.setProperty('--bg', data.theme);
+        }
+        
+        updateBgPreview();
 
         // Check for pro=success in URL (after Stripe payment)
         const urlParams = new URLSearchParams(window.location.search);

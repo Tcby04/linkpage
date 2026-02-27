@@ -868,6 +868,9 @@
         
         updateBgPreview();
 
+        // Check URL params
+        const urlParams = new URLSearchParams(window.location.search);
+
         // Check if visitor mode - show public page only (no editor)
         const isVisitor = urlParams.get('view') === 'true' || (!saved && !localStorage.getItem('linkpage_visited'));
         
@@ -879,7 +882,6 @@
         }
 
         // Check for pro=success in URL (after Stripe payment)
-        const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('pro') === 'success') {
             // Clean URL
             window.history.replaceState({}, document.title, window.location.pathname);

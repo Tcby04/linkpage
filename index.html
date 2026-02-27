@@ -641,6 +641,13 @@
             trackView();
         }
 
+        function showPublicView() {
+            // Hide editor, show only public page
+            document.getElementById('editor-view').style.display = 'none';
+            document.getElementById('share-view').classList.add('active');
+            updatePreview();
+        }
+
         function showEditorView() {
             document.getElementById('share-view').classList.remove('active');
             document.getElementById('editor-view').style.display = 'block';
@@ -860,6 +867,16 @@
         }
         
         updateBgPreview();
+
+        // Check if visitor mode - show public page only (no editor)
+        const isVisitor = urlParams.get('view') === 'true' || (!saved && !localStorage.getItem('linkpage_visited'));
+        
+        if (isVisitor) {
+            // Mark as visited so we don't show editor on return
+            localStorage.setItem('linkpage_visited', 'true');
+            // Show public view only
+            showPublicView();
+        }
 
         // Check for pro=success in URL (after Stripe payment)
         const urlParams = new URLSearchParams(window.location.search);

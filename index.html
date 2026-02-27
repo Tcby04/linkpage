@@ -648,8 +648,11 @@
         }
 
         function upgradeToPro() {
-            // In production, this would open Stripe/PayPal
-            showToast('Payment integration coming soon! Use code: DEMO-PRO');
+            // Same system as Quote Genius - manual payment + code
+            // Stripe link: https://buy.stripe.com/linkpage (create later)
+            // For now, use code system: DEMO-PRO
+            showToast('Use code: DEMO-PRO to unlock Pro');
+            document.getElementById('pro-code').focus();
         }
 
         function redeemCode() {

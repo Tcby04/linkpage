@@ -866,22 +866,16 @@
         // Load saved data
         const saved = localStorage.getItem('linkpage_data');
         
-        // Default data for Trent's page
+        // Default data - blank for new users
         const defaultData = {
-            name: 'Trent',
-            bio: 'Solo dev building things. 📍 NWA',
+            name: '',
+            bio: '',
             avatar: '',
             bgImage: '',
             customDomain: '',
             theme: '#0a0a0a',
-            links: [
-                { title: '🔧 Curtis Tech', url: 'https://tcby04.github.io/curtis-tech/' },
-                { title: '⚡ Quote Genius', url: 'https://tcby04.github.io/quote-genius/' },
-                { title: '🍕 FoodTruckIQ', url: 'https://tcby04.github.io/foodtruckiq/' },
-                { title: '🔗 LinkPage', url: 'https://tcby04.github.io/linkpage/' },
-                { title: '🗜️ PixelSqueeze', url: 'https://tcby04.github.io/pixel-squeeze/' }
-            ],
-            isPro: true
+            links: [],
+            isPro: false
         };
         
         let data = defaultData;
@@ -889,9 +883,8 @@
         if (saved) {
             data = { ...defaultData, ...JSON.parse(saved) };
         } else {
-            // Save default data for first visit
+            // Save blank default for first visit - user creates their own
             localStorage.setItem('linkpage_data', JSON.stringify(defaultData));
-            localStorage.setItem('linkpage_pro', 'true');
         }
         
         document.getElementById('name').value = data.name || '';

@@ -649,6 +649,33 @@
         }
 
         function showEditorView() {
+            // Check password if not already authorized
+            const isAuthorized = localStorage.getItem('linkpage_auth') === 'true';
+            
+            if (!isAuthorized) {
+                const password = prompt('Enter password to edit:');
+                // Simple password check - owner sets this
+                const savedPassword = localStorage.getItem('linkpage_password');
+                
+                if (savedPassword && password !== savedPassword) {
+                    alert('Incorrect password');
+                    return;
+                }
+                
+                // First time - set password
+                if (!savedPassword) {
+                    const newPassword = prompt('Set a password for this page:');
+                    if (newPassword) {
+                        localStorage.setItem('linkpage_password', newPassword);
+                        localStorage.setItem('linkpage_auth', 'true');
+                    } else {
+                        return;
+                    }
+                } else {
+                    localStorage.setItem('linkpage_auth', 'true');
+                }
+            }
+            
             document.getElementById('share-view').classList.remove('active');
             document.getElementById('editor-view').style.display = 'block';
             window.history.pushState({}, '', '?edit=true');

@@ -687,33 +687,90 @@
 
         function unlockPro() {
             const code = document.getElementById('unlockCode').value.trim().toUpperCase();
-            const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
             
-            if (validCodes.includes(code)) {
-                isPro = true;
-                localStorage.setItem('linkpage_pro', 'true');
-                showProFeatures();
-                savePage();
-                closeProModal();
-                showToast('Pro activated! 🎉');
-            } else {
-                showToast('Invalid code');
+            if (!code) {
+                showToast('Please enter a code');
+                return;
             }
+            
+            // Validate with server
+            fetch('https://quote-genius-server.onrender.com/validate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code, product: 'linkpage' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.valid) {
+                    isPro = true;
+                    localStorage.setItem('linkpage_pro', 'true');
+                    localStorage.setItem('linkpage_code', code);
+                    showProFeatures();
+                    savePage();
+                    closeProModal();
+                    showToast('Pro activated! 🎉');
+                } else {
+                    showToast('Invalid code');
+                }
+            })
+            .catch(err => {
+                // Fallback to demo codes if server is down
+                const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
+                if (validCodes.includes(code)) {
+                    isPro = true;
+                    localStorage.setItem('linkpage_pro', 'true');
+                    localStorage.setItem('linkpage_code', code);
+                    showProFeatures();
+                    savePage();
+                    closeProModal();
+                    showToast('Pro activated! 🎉');
+                } else {
+                    showToast('Invalid code');
+                }
+            });
         }
 
         function redeemCode() {
             const code = document.getElementById('pro-code').value.trim().toUpperCase();
-            const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
             
-            if (validCodes.includes(code)) {
-                isPro = true;
-                localStorage.setItem('linkpage_pro', 'true');
-                showProFeatures();
-                savePage();
-                showToast('Pro activated! 🎉');
-            } else {
-                showToast('Invalid code');
+            if (!code) {
+                showToast('Please enter a code');
+                return;
             }
+            
+            // Validate with server
+            fetch('https://quote-genius-server.onrender.com/validate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ code: code, product: 'linkpage' })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.valid) {
+                    isPro = true;
+                    localStorage.setItem('linkpage_pro', 'true');
+                    localStorage.setItem('linkpage_code', code);
+                    showProFeatures();
+                    savePage();
+                    showToast('Pro activated! 🎉');
+                } else {
+                    showToast('Invalid code');
+                }
+            })
+            .catch(err => {
+                // Fallback to demo codes if server is down
+                const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
+                if (validCodes.includes(code)) {
+                    isPro = true;
+                    localStorage.setItem('linkpage_pro', 'true');
+                    localStorage.setItem('linkpage_code', code);
+                    showProFeatures();
+                    savePage();
+                    showToast('Pro activated! 🎉');
+                } else {
+                    showToast('Invalid code');
+                }
+            });
         }
 
         function showProFeatures() {

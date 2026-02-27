@@ -459,9 +459,9 @@
                     <div class="form-group">
                         <label>Your Domain</label>
                         <input type="text" id="custom-domain" placeholder="links.yourname.com">
-                        <p class="domain-preview">
-                            Set CNAME record to: tcby04.github.io<br>
-                            Then enter your domain above.
+                        <p class="domain-preview" id="domain-instructions">
+                            Set CNAME to: <span id="server-domain">linkpage-server.onrender.com</span><br>
+                            Then enter your domain above and save.
                         </p>
                     </div>
                 </div>
@@ -654,6 +654,8 @@
         }
 
         function savePage() {
+            const customDomain = document.getElementById('custom-domain').value.trim();
+            
             const data = {
                 name: document.getElementById('name').value,
                 bio: document.getElementById('bio').value,
@@ -661,12 +663,34 @@
                 links: links,
                 theme: currentTheme,
                 bgImage: document.getElementById('bg-image').value,
-                customDomain: document.getElementById('custom-domain').value,
+                customDomain: customDomain,
                 isPro: isPro
             };
             
             localStorage.setItem('linkpage_data', JSON.stringify(data));
-            showToast('Saved!');
+            
+            // Sync to server if custom domain is set (Pro feature)
+            if (customDomain && isPro) {
+                fetch('https://linkpage-server.onrender.com/api/save', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ domain: customDomain, data: data })
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        showToast('Saved! Your custom domain is live 🌐');
+                    } else {
+                        showToast('Saved (server sync pending)');
+                    }
+                })
+                .catch(err => {
+                    console.log('Server sync failed:', err);
+                    showToast('Saved locally. Custom domain will sync when server is ready.');
+                });
+            } else {
+                showToast('Saved!');
+            }
         }
 
         function showToast(msg) {

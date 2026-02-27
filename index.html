@@ -649,30 +649,23 @@
         }
 
         function showEditorView() {
-            // Check password if not already authorized
-            const isAuthorized = localStorage.getItem('linkpage_auth') === 'true';
+            // Always require password to edit
+            const savedPassword = localStorage.getItem('linkpage_password');
             
-            if (!isAuthorized) {
-                const password = prompt('Enter password to edit:');
-                // Simple password check - owner sets this
-                const savedPassword = localStorage.getItem('linkpage_password');
-                
-                if (savedPassword && password !== savedPassword) {
-                    alert('Incorrect password');
+            if (!savedPassword) {
+                // First time - set password
+                const newPassword = prompt('Set a password to protect your page:');
+                if (newPassword) {
+                    localStorage.setItem('linkpage_password', newPassword);
+                } else {
                     return;
                 }
-                
-                // First time - set password
-                if (!savedPassword) {
-                    const newPassword = prompt('Set a password for this page:');
-                    if (newPassword) {
-                        localStorage.setItem('linkpage_password', newPassword);
-                        localStorage.setItem('linkpage_auth', 'true');
-                    } else {
-                        return;
-                    }
-                } else {
-                    localStorage.setItem('linkpage_auth', 'true');
+            } else {
+                // Verify password
+                const password = prompt('Enter password to edit:');
+                if (password !== savedPassword) {
+                    alert('Incorrect password');
+                    return;
                 }
             }
             

@@ -485,6 +485,35 @@
                 <button class="btn btn-secondary" onclick="showEditorView()">✏️ Edit</button>
             </div>
         </div>
+
+        <!-- Pro Modal -->
+        <div id="proModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center;">
+            <div class="editor" style="max-width: 400px; margin: 1rem;">
+                <h2>🚀 Unlock Pro</h2>
+                <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px;">
+                    Pay $3/month to unlock Pro features:
+                </p>
+                <ul style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px; padding-left: 1.2rem;">
+                    <li>✓ Unlimited links</li>
+                    <li>✓ Custom background image</li>
+                    <li>✓ Analytics (clicks & views)</li>
+                    <li>✓ Custom domain support</li>
+                    <li>✓ Remove LinkPage branding</li>
+                </ul>
+                <a href="https://buy.stripe.com/14A3cv3aleghbjl8mc8EM02" target="_blank" class="btn btn-primary" style="width: 100%; text-decoration: none; display: block; text-align: center; margin-bottom: 12px;">
+                    Pay $3/mo with Stripe
+                </a>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; text-align: center;">
+                    You'll get a code after payment. Enter it below.
+                </p>
+                <div class="form-group">
+                    <label>Enter your unlock code:</label>
+                    <input type="text" id="unlockCode" placeholder="Code">
+                </div>
+                <button class="btn btn-primary" onclick="unlockPro()" style="width: 100%;">Unlock</button>
+                <button class="btn btn-secondary" onclick="closeProModal()" style="width: 100%; margin-top: 8px;">Cancel</button>
+            </div>
+        </div>
     </div>
 
     <div class="toast" id="toast">Saved!</div>
@@ -648,11 +677,28 @@
         }
 
         function upgradeToPro() {
-            // Same system as Quote Genius - manual payment + code
-            // Stripe link: https://buy.stripe.com/linkpage (create later)
-            // For now, use code system: DEMO-PRO
-            showToast('Use code: DEMO-PRO to unlock Pro');
-            document.getElementById('pro-code').focus();
+            // Show modal like Quote Genius
+            document.getElementById('proModal').style.display = 'flex';
+        }
+
+        function closeProModal() {
+            document.getElementById('proModal').style.display = 'none';
+        }
+
+        function unlockPro() {
+            const code = document.getElementById('unlockCode').value.trim().toUpperCase();
+            const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
+            
+            if (validCodes.includes(code)) {
+                isPro = true;
+                localStorage.setItem('linkpage_pro', 'true');
+                showProFeatures();
+                savePage();
+                closeProModal();
+                showToast('Pro activated! 🎉');
+            } else {
+                showToast('Invalid code');
+            }
         }
 
         function redeemCode() {
@@ -706,6 +752,18 @@
             }
             
             updateBgPreview();
+        }
+
+        // Check for pro=success in URL (after Stripe payment)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('pro') === 'success') {
+            // Clean URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+            // Show modal
+            setTimeout(() => {
+                showToast('Payment successful! Enter your code to unlock Pro.');
+                upgradeToPro();
+            }, 500);
         }
 
         // Load analytics

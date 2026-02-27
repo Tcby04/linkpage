@@ -38,16 +38,9 @@
             padding: 40px 20px;
         }
 
-        /* Preview Mode */
-        .preview-mode .editor {
-            display: none;
-        }
+        .preview-mode .editor { display: none; }
+        .preview-mode .preview { display: block; }
 
-        .preview-mode .preview {
-            display: block;
-        }
-
-        /* Editor */
         .editor {
             background: var(--card);
             border: 1px solid var(--border);
@@ -65,9 +58,7 @@
             gap: 8px;
         }
 
-        .form-group {
-            margin-bottom: 16px;
-        }
+        .form-group { margin-bottom: 16px; }
 
         .form-group label {
             display: block;
@@ -95,15 +86,9 @@
             border-color: var(--accent);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
 
-        /* Links List */
-        .links-list {
-            margin-bottom: 16px;
-        }
+        .links-list { margin-bottom: 16px; }
 
         .link-item {
             display: flex;
@@ -145,36 +130,15 @@
             transition: all 0.2s;
         }
 
-        .btn-primary {
-            background: var(--accent);
-            color: #000;
-        }
+        .btn-primary { background: var(--accent); color: #000; }
+        .btn-primary:hover { background: var(--accent-hover); }
+        .btn-secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+        .btn-secondary:hover { border-color: var(--text-muted); }
+        .btn-small { padding: 6px 12px; font-size: 12px; }
+        .btn-danger { background: #dc2626; color: #fff; }
+        .btn-danger:hover { background: #b91c1c; }
 
-        .btn-primary:hover {
-            background: var(--accent-hover);
-        }
-
-        .btn-secondary {
-            background: var(--card);
-            border: 1px solid var(--border);
-            color: var(--text);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--text-muted);
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
-        /* Preview */
-        .preview {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
+        .preview { display: none; text-align: center; padding: 40px 20px; }
 
         .preview .avatar {
             width: 96px;
@@ -190,29 +154,12 @@
             overflow: hidden;
         }
 
-        .preview .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .preview .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-        .preview .name {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
+        .preview .name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .preview .bio { color: var(--text-muted); font-size: 14px; margin-bottom: 24px; }
 
-        .preview .bio {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-bottom: 24px;
-        }
-
-        .preview .links {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .preview .links { display: flex; flex-direction: column; gap: 12px; }
 
         .preview .link {
             display: block;
@@ -231,19 +178,9 @@
             transform: translateY(-2px);
         }
 
-        /* Actions */
-        .actions {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
+        .actions { display: flex; gap: 12px; margin-top: 20px; flex-wrap: wrap; }
 
-        /* Color Picker */
-        .color-options {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+        .color-options { display: flex; gap: 8px; flex-wrap: wrap; }
 
         .color-option {
             width: 32px;
@@ -254,15 +191,9 @@
             transition: all 0.2s;
         }
 
-        .color-option:hover {
-            transform: scale(1.1);
-        }
+        .color-option:hover { transform: scale(1.1); }
+        .color-option.active { border-color: #fff; }
 
-        .color-option.active {
-            border-color: #fff;
-        }
-
-        /* Tab Toggle */
         .tabs {
             display: flex;
             gap: 4px;
@@ -284,20 +215,10 @@
             transition: all 0.2s;
         }
 
-        .tab.active {
-            background: var(--card);
-            color: var(--text);
-        }
+        .tab.active { background: var(--card); color: var(--text); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Toast */
         .toast {
             position: fixed;
             bottom: 24px;
@@ -313,12 +234,8 @@
             z-index: 1000;
         }
 
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-        /* Pro Badge */
         .pro-badge {
             display: inline-flex;
             align-items: center;
@@ -331,71 +248,241 @@
             border-radius: 4px;
             margin-left: 8px;
         }
+
+        .pro-lock {
+            opacity: 0.5;
+            position: relative;
+        }
+
+        .pro-lock::after {
+            content: '🔒';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Pro Features */
+        .pro-only { display: none; }
+        .pro-only.show { display: block; }
+
+        .analytics-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .analytics-card h3 {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .analytics-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .analytics-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .analytics-row .analytics-card { flex: 1; }
+
+        /* Background image preview */
+        .bg-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 8px;
+            background-size: cover;
+            background-position: center;
+            margin-top: 8px;
+            border: 1px solid var(--border);
+        }
+
+        /* Branded footer */
+        .branding {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .branding a { color: var(--text-muted); text-decoration: none; }
+
+        /* Share view */
+        .share-view { display: none; }
+        .share-view.active { display: block; }
+
+        /* Custom domain input */
+        .domain-preview {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            font-family: monospace;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="tabs">
-            <div class="tab active" data-tab="editor">Editor</div>
-            <div class="tab" data-tab="preview">Preview</div>
-        </div>
+        <!-- Editor View -->
+        <div class="editor-view" id="editor-view">
+            <div class="tabs">
+                <div class="tab active" data-tab="profile">Profile</div>
+                <div class="tab" data-tab="links">Links</div>
+                <div class="tab" data-tab="appearance">Appearance</div>
+                <div class="tab" data-tab="pro">Pro</div>
+            </div>
 
-        <!-- Editor Tab -->
-        <div class="tab-content active" id="editor-tab">
-            <div class="editor">
-                <h2>👤 Profile</h2>
-                <div class="form-group">
-                    <label>Display Name</label>
-                    <input type="text" id="name" placeholder="Your name" value="Trent">
+            <!-- Profile Tab -->
+            <div class="tab-content active" id="profile-tab">
+                <div class="editor">
+                    <h2>👤 Profile</h2>
+                    <div class="form-group">
+                        <label>Display Name</label>
+                        <input type="text" id="name" placeholder="Your name" value="Trent">
+                    </div>
+                    <div class="form-group">
+                        <label>Bio</label>
+                        <textarea id="bio" placeholder="Tell people about yourself">Pizza truck owner. Building things. 📍 NWA</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Avatar URL</label>
+                        <input type="text" id="avatar" placeholder="https://...">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Bio</label>
-                    <textarea id="bio" placeholder="Tell people about yourself">Pizza truck owner. Building things. 📍 NWA</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Avatar URL</label>
-                    <input type="text" id="avatar" placeholder="https://...">
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="savePage()">💾 Save</button>
+                    <button class="btn btn-secondary" onclick="showShareView()">👁 View Page</button>
                 </div>
             </div>
 
-            <div class="editor">
-                <h2>🔗 Links <span class="pro-badge">PRO</span></h2>
-                <div class="links-list" id="links-list">
-                    <!-- Links added here -->
+            <!-- Links Tab -->
+            <div class="tab-content" id="links-tab">
+                <div class="editor">
+                    <h2>🔗 Links <span id="links-badge"></span></h2>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+                        <span id="links-count">0</span>/5 links (free). <a href="#" onclick="switchTab('pro'); showToast('Pro unlocks unlimited links!')" style="color: var(--accent)">Upgrade to Pro</a> for unlimited.
+                    </p>
+                    <div class="links-list" id="links-list"></div>
+                    <button class="btn btn-secondary btn-small" onclick="addLink()">+ Add Link</button>
                 </div>
-                <button class="btn btn-secondary btn-small" onclick="addLink()">+ Add Link</button>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="savePage()">💾 Save</button>
+                </div>
             </div>
 
-            <div class="editor">
-                <h2>🎨 Appearance</h2>
-                <div class="form-group">
-                    <label>Theme</label>
-                    <div class="color-options">
-                        <div class="color-option active" style="background: #0a0a0a" data-theme="#0a0a0a" onclick="setTheme(this)"></div>
-                        <div class="color-option" style="background: #1e1b4b" data-theme="#1e1b4b" onclick="setTheme(this)"></div>
-                        <div class="color-option" style="background: #14532d" data-theme="#14532d" onclick="setTheme(this)"></div>
-                        <div class="color-option" style="background: #7f1d1d" data-theme="#7f1d1d" onclick="setTheme(this)"></div>
-                        <div class="color-option" style="background: #292524" data-theme="#292524" onclick="setTheme(this)"></div>
-                        <div class="color-option" style="background: #fafafa" data-theme="#fafafa" onclick="setTheme(this)"></div>
+            <!-- Appearance Tab -->
+            <div class="tab-content" id="appearance-tab">
+                <div class="editor">
+                    <h2>🎨 Theme</h2>
+                    <div class="form-group">
+                        <label>Background Color</label>
+                        <div class="color-options">
+                            <div class="color-option active" style="background: #0a0a0a" data-theme="#0a0a0a" onclick="setTheme(this)"></div>
+                            <div class="color-option" style="background: #1e1b4b" data-theme="#1e1b4b" onclick="setTheme(this)"></div>
+                            <div class="color-option" style="background: #14532d" data-theme="#14532d" onclick="setTheme(this)"></div>
+                            <div class="color-option" style="background: #7f1d1d" data-theme="#7f1d1d" onclick="setTheme(this)"></div>
+                            <div class="color-option" style="background: #292524" data-theme="#292524" onclick="setTheme(this)"></div>
+                            <div class="color-option" style="background: #fafafa" data-theme="#fafafa" onclick="setTheme(this)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor pro-only" id="bg-image-section">
+                    <h2>🖼 Background Image <span class="pro-badge">PRO</span></h2>
+                    <div class="form-group">
+                        <label>Image URL (Pro)</label>
+                        <input type="text" id="bg-image" placeholder="https://..." onchange="updateBgPreview()">
+                        <div class="bg-preview" id="bg-preview"></div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="savePage()">💾 Save</button>
+                </div>
+            </div>
+
+            <!-- Pro Tab -->
+            <div class="tab-content" id="pro-tab">
+                <div class="editor">
+                    <h2>⚡ Pro Features</h2>
+                    <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">
+                        Upgrade to Pro for $3/month to unlock:
+                    </p>
+                    <ul style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; padding-left: 20px;">
+                        <li>✓ Unlimited links</li>
+                        <li>✓ Custom background image</li>
+                        <li>✓ Analytics (clicks & views)</li>
+                        <li>✓ Custom domain support</li>
+                        <li>✓ Remove LinkPage branding</li>
+                    </ul>
+                    
+                    <div id="pro-status" style="display: none;">
+                        <p style="color: var(--accent); font-weight: 600;">✓ Pro is active!</p>
+                    </div>
+                    
+                    <div id="pro-prompt">
+                        <button class="btn btn-primary" onclick="upgradeToPro()" style="width: 100%; margin-bottom: 12px;">
+                            🚀 Upgrade to Pro - $3/month
+                        </button>
+                        <p style="font-size: 12px; color: var(--text-muted); text-align: center;">
+                            Or enter pro code: <input type="text" id="pro-code" placeholder="XXXX-XXXX" style="width: 100px; padding: 4px 8px; font-size: 12px;">
+                            <button class="btn btn-secondary btn-small" onclick="redeemCode()">Redeem</button>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="editor pro-only show" id="analytics-section" style="display: none;">
+                    <h2>📊 Analytics <span class="pro-badge">PRO</span></h2>
+                    <div class="analytics-row">
+                        <div class="analytics-card">
+                            <h3>Views</h3>
+                            <div class="value" id="stat-views">0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Clicks</h3>
+                            <div class="value" id="stat-clicks">0</div>
+                        </div>
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
+                        Stats reset daily. Share your page to track engagement.
+                    </p>
+                </div>
+
+                <div class="editor pro-only show" id="domain-section" style="display: none;">
+                    <h2>🌐 Custom Domain <span class="pro-badge">PRO</span></h2>
+                    <div class="form-group">
+                        <label>Your Domain</label>
+                        <input type="text" id="custom-domain" placeholder="links.yourname.com">
+                        <p class="domain-preview">
+                            Set CNAME record to: tcby04.github.io<br>
+                            Then enter your domain above.
+                        </p>
                     </div>
                 </div>
             </div>
-
-            <div class="actions">
-                <button class="btn btn-primary" onclick="savePage()">💾 Save</button>
-                <button class="btn btn-secondary" onclick="showPreview()">👁 Preview</button>
-            </div>
         </div>
 
-        <!-- Preview Tab -->
-        <div class="tab-content" id="preview-tab">
-            <div class="preview" style="display: block">
+        <!-- Share/Preview View -->
+        <div class="share-view" id="share-view">
+            <div class="preview" id="preview" style="display: block">
                 <div class="avatar" id="preview-avatar">🔗</div>
                 <div class="name" id="preview-name">Trent</div>
                 <div class="bio" id="preview-bio">Pizza truck owner. Building things. 📍 NWA</div>
-                <div class="links" id="preview-links">
-                    <!-- Preview links -->
-                </div>
+                <div class="links" id="preview-links"></div>
+            </div>
+            
+            <div class="branding" id="branding">
+                <a href="#">Made with LinkPage</a>
+            </div>
+            
+            <div class="actions" style="justify-content: center;">
+                <button class="btn btn-secondary" onclick="showEditorView()">✏️ Edit</button>
             </div>
         </div>
     </div>
@@ -408,10 +495,17 @@
             { title: '📸 Instagram', url: 'https://instagram.com' },
         ];
 
+        let isPro = false;
         let currentTheme = '#0a0a0a';
+        let analytics = { views: 0, clicks: 0 };
 
         function renderLinks() {
             const list = document.getElementById('links-list');
+            const canAddMore = isPro || links.length < 5;
+            
+            document.getElementById('links-count').textContent = links.length;
+            document.getElementById('links-badge').innerHTML = isPro ? '<span class="pro-badge">PRO</span>' : '';
+            
             list.innerHTML = links.map((link, i) => `
                 <div class="link-item">
                     <span class="drag">⋮⋮</span>
@@ -423,6 +517,10 @@
         }
 
         function addLink() {
+            if (!isPro && links.length >= 5) {
+                showToast('5 link limit! Upgrade to Pro for unlimited.');
+                return;
+            }
             links.push({ title: '', url: '' });
             renderLinks();
         }
@@ -442,13 +540,22 @@
             currentTheme = el.dataset.theme;
             document.documentElement.style.setProperty('--bg', currentTheme);
             
-            // Adjust text color for light themes
             if (currentTheme === '#fafafa') {
                 document.documentElement.style.setProperty('--text', '#000');
                 document.documentElement.style.setProperty('--text-muted', '#666');
             } else {
                 document.documentElement.style.setProperty('--text', '#fafafa');
                 document.documentElement.style.setProperty('--text-muted', '#a3a3a3');
+            }
+        }
+
+        function updateBgPreview() {
+            const url = document.getElementById('bg-image').value;
+            const preview = document.getElementById('bg-preview');
+            if (url) {
+                preview.style.backgroundImage = `url(${url})`;
+            } else {
+                preview.style.backgroundImage = 'none';
             }
         }
 
@@ -464,18 +571,57 @@
                 avatar.textContent = '🔗';
             }
 
+            const bgImage = document.getElementById('bg-image').value;
+            if (bgImage && isPro) {
+                document.getElementById('preview').style.backgroundImage = `url(${bgImage})`;
+                document.getElementById('preview').style.backgroundSize = 'cover';
+                document.getElementById('preview').style.backgroundPosition = 'center';
+            }
+
             document.getElementById('preview-links').innerHTML = links
                 .filter(l => l.title && l.url)
-                .map(l => `<a href="${l.url}" class="link" target="_blank">${l.title}</a>`)
+                .map(l => `<a href="${l.url}" class="link" target="_blank" onclick="trackClick()">${l.title}</a>`)
                 .join('') || '<p style="color: var(--text-muted)">No links yet</p>';
+
+            // Hide branding if Pro
+            document.getElementById('branding').style.display = isPro ? 'none' : 'block';
         }
 
-        function showPreview() {
+        function trackClick() {
+            analytics.clicks++;
+            localStorage.setItem('linkpage_analytics', JSON.stringify(analytics));
+            updateAnalyticsDisplay();
+        }
+
+        function trackView() {
+            analytics.views++;
+            localStorage.setItem('linkpage_analytics', JSON.stringify(analytics));
+            updateAnalyticsDisplay();
+        }
+
+        function updateAnalyticsDisplay() {
+            document.getElementById('stat-views').textContent = analytics.views;
+            document.getElementById('stat-clicks').textContent = analytics.clicks;
+        }
+
+        function showShareView() {
+            document.getElementById('editor-view').classList.remove('editor-view');
+            document.getElementById('editor-view').style.display = 'none';
+            document.getElementById('share-view').classList.add('active');
             updatePreview();
+            trackView();
+        }
+
+        function showEditorView() {
+            document.getElementById('share-view').classList.remove('active');
+            document.getElementById('editor-view').style.display = 'block';
+        }
+
+        function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelector('[data-tab="preview"]').classList.add('active');
-            document.getElementById('preview-tab').classList.add('active');
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
         }
 
         function savePage() {
@@ -484,7 +630,10 @@
                 bio: document.getElementById('bio').value,
                 avatar: document.getElementById('avatar').value,
                 links: links,
-                theme: currentTheme
+                theme: currentTheme,
+                bgImage: document.getElementById('bg-image').value,
+                customDomain: document.getElementById('custom-domain').value,
+                isPro: isPro
             };
             
             localStorage.setItem('linkpage_data', JSON.stringify(data));
@@ -498,17 +647,41 @@
             setTimeout(() => toast.classList.remove('show'), 2000);
         }
 
+        function upgradeToPro() {
+            // In production, this would open Stripe/PayPal
+            showToast('Payment integration coming soon! Use code: DEMO-PRO');
+        }
+
+        function redeemCode() {
+            const code = document.getElementById('pro-code').value.trim().toUpperCase();
+            const validCodes = ['DEMO-PRO', 'TEST-1234', 'NEX-PRO'];
+            
+            if (validCodes.includes(code)) {
+                isPro = true;
+                localStorage.setItem('linkpage_pro', 'true');
+                showProFeatures();
+                savePage();
+                showToast('Pro activated! 🎉');
+            } else {
+                showToast('Invalid code');
+            }
+        }
+
+        function showProFeatures() {
+            document.getElementById('pro-status').style.display = 'block';
+            document.getElementById('pro-prompt').style.display = 'none';
+            document.getElementById('bg-image-section').style.display = 'block';
+            document.getElementById('analytics-section').style.display = 'block';
+            document.getElementById('domain-section').style.display = 'block';
+            
+            // Show pro-only sections
+            document.querySelectorAll('.pro-only').forEach(el => el.classList.add('show'));
+        }
+
         // Tab switching
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                tab.classList.add('active');
-                document.getElementById(tab.dataset.tab + '-tab').classList.add('active');
-                
-                if (tab.dataset.tab === 'preview') {
-                    updatePreview();
-                }
+                switchTab(tab.dataset.tab);
             });
         });
 
@@ -519,11 +692,29 @@
             document.getElementById('name').value = data.name || '';
             document.getElementById('bio').value = data.bio || '';
             document.getElementById('avatar').value = data.avatar || '';
+            document.getElementById('bg-image').value = data.bgImage || '';
+            document.getElementById('custom-domain').value = data.customDomain || '';
             links = data.links || [];
+            isPro = data.isPro || localStorage.getItem('linkpage_pro') === 'true';
+            
             if (data.theme) {
                 currentTheme = data.theme;
                 document.documentElement.style.setProperty('--bg', data.theme);
             }
+            
+            updateBgPreview();
+        }
+
+        // Load analytics
+        const savedAnalytics = localStorage.getItem('linkpage_analytics');
+        if (savedAnalytics) {
+            analytics = JSON.parse(savedAnalytics);
+        }
+
+        // Show pro features if active
+        if (isPro) {
+            showProFeatures();
+            updateAnalyticsDisplay();
         }
 
         renderLinks();

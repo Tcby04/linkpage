@@ -946,28 +946,18 @@
     // Check for upgrade success - auto-unlock Pro
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('upgraded') === 'true') {
+        isPro = true;
+        localStorage.setItem('linkpage_pro', 'true');
+        
         if (urlParams.get('session_id')) {
-            setTimeout(() => {
-                fetch('https://quote-genius-server.onrender.com/code-by-session?session_id=' + urlParams.get('session_id') + '&product=linkpage')
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.code) {
-                            isPro = true;
-                            localStorage.setItem('linkpage_pro', 'true');
-                            localStorage.setItem('linkpage_code', data.code);
-                            showProFeatures();
-                            savePage();
-                        }
-                    })
-                    .finally(() => {
-                        renderLinks();
-                    });
-            }, 1000);
-        } else {
-            isPro = true;
-            localStorage.setItem('linkpage_pro', 'true');
-            showProFeatures();
+            fetch('https://quote-genius-server.onrender.com/code-by-session?session_id=' + urlParams.get('session_id') + '&product=linkpage')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code) localStorage.setItem('linkpage_code', data.code);
+                })
+                .catch(() => {});
         }
+        showProFeatures();
     }
     </script>
 </body>

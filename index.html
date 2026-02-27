@@ -528,6 +528,21 @@
         let currentTheme = '#0a0a0a';
         let analytics = { views: 0, clicks: 0 };
 
+        // Simple hash function for password (not perfect security, but better than plain text)
+        async function hashPassword(password) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(password + 'linkpage_salt_2026');
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
+        // Sanitize input to prevent XSS
+        function sanitize(str) {
+            if (!str) return '';
+            return str.replace(/[<>\"'&]/g, '');
+        }
+
         function renderLinks() {
             const list = document.getElementById('links-list');
             const canAddMore = isPro || links.length < 5;
@@ -538,8 +553,8 @@
             list.innerHTML = links.map((link, i) => `
                 <div class="link-item">
                     <span class="drag">⋮⋮</span>
-                    <input type="text" placeholder="Title" value="${link.title}" onchange="updateLink(${i}, 'title', this.value)">
-                    <input type="text" placeholder="URL" value="${link.url}" onchange="updateLink(${i}, 'url', this.value)">
+                    <input type="text" placeholder="Title" value="${sanitize(link.title)}" onchange="updateLink(${i}, 'title', this.value)">
+                    <input type="text" placeholder="URL" value="${sanitize(link.url)}" onchange="updateLink(${i}, 'url', this.value)">
                     <span class="delete" onclick="deleteLink(${i})">×</span>
                 </div>
             `).join('');
@@ -609,7 +624,7 @@
 
             document.getElementById('preview-links').innerHTML = links
                 .filter(l => l.title && l.url)
-                .map(l => `<a href="${l.url}" class="link" target="_blank" onclick="trackClick()">${l.title}</a>`)
+                .map(l => `<a href="${sanitize(l.url)}" class="link" target="_blank" onclick="trackClick()">${sanitize(l.title)}</a>`)
                 .join('') || '<p style="color: var(--text-muted)">No links yet</p>';
 
             // Hide branding if Pro
@@ -648,22 +663,27 @@
             updatePreview();
         }
 
-        function showEditorView() {
+        async function showEditorView() {
             // Always require password to edit
-            const savedPassword = localStorage.getItem('linkpage_password');
+            const savedHash = localStorage.getItem('linkpage_password');
             
-            if (!savedPassword) {
+            if (!savedHash) {
                 // First time - set password
                 const newPassword = prompt('Set a password to protect your page:');
-                if (newPassword) {
-                    localStorage.setItem('linkpage_password', newPassword);
+                if (newPassword && newPassword.length >= 4) {
+                    const hash = await hashPassword(newPassword);
+                    localStorage.setItem('linkpage_password', hash);
                 } else {
+                    alert('Password must be at least 4 characters');
                     return;
                 }
             } else {
                 // Verify password
                 const password = prompt('Enter password to edit:');
-                if (password !== savedPassword) {
+                if (!password) return;
+                
+                const inputHash = await hashPassword(password);
+                if (inputHash !== savedHash) {
                     alert('Incorrect password');
                     return;
                 }
